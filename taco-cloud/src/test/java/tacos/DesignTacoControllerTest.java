@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -43,33 +44,33 @@ public class DesignTacoControllerTest {
   @BeforeEach
   public void setup() {
     ingredients = Arrays.asList(
-      new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
-      new Ingredient("COTO", "Corn Tortilla", Type.WRAP),
-      new Ingredient("GRBF", "Ground Beef", Type.PROTEIN),
-      new Ingredient("CARN", "Carnitas", Type.PROTEIN),
-      new Ingredient("TMTO", "Diced Tomatoes", Type.VEGGIES),
-      new Ingredient("LETC", "Lettuce", Type.VEGGIES),
-      new Ingredient("CHED", "Cheddar", Type.CHEESE),
-      new Ingredient("JACK", "Monterrey Jack", Type.CHEESE),
-      new Ingredient("SLSA", "Salsa", Type.SAUCE),
-      new Ingredient("SRCR", "Sour Cream", Type.SAUCE)
+      new Ingredient("FLTO", "Flour Tortilla", Type.WRAP, BigDecimal.ONE),
+      new Ingredient("COTO", "Corn Tortilla", Type.WRAP, BigDecimal.ONE),
+      new Ingredient("GRBF", "Ground Beef", Type.PROTEIN, BigDecimal.ONE),
+      new Ingredient("CARN", "Carnitas", Type.PROTEIN, BigDecimal.ONE),
+      new Ingredient("TMTO", "Diced Tomatoes", Type.VEGGIES, BigDecimal.ONE),
+      new Ingredient("LETC", "Lettuce", Type.VEGGIES, BigDecimal.ONE),
+      new Ingredient("CHED", "Cheddar", Type.CHEESE, BigDecimal.ONE),
+      new Ingredient("JACK", "Monterrey Jack", Type.CHEESE, BigDecimal.ONE),
+      new Ingredient("SLSA", "Salsa", Type.SAUCE, BigDecimal.ONE),
+      new Ingredient("SRCR", "Sour Cream", Type.SAUCE, BigDecimal.ONE)
     );
 
     when(ingredientRepository.findAll())
         .thenReturn(ingredients);
 
-    when(ingredientRepository.findById("FLTO")).thenReturn(Optional.of(new Ingredient("FLTO", "Flour Tortilla", Type.WRAP)));
-    when(ingredientRepository.findById("GRBF")).thenReturn(Optional.of(new Ingredient("GRBF", "Ground Beef", Type.PROTEIN)));
-    when(ingredientRepository.findById("CHED")).thenReturn(Optional.of(new Ingredient("CHED", "Cheddar", Type.CHEESE)));
+    when(ingredientRepository.findById("FLTO")).thenReturn(Optional.of(new Ingredient("FLTO", "Flour Tortilla", Type.WRAP, BigDecimal.ONE)));
+    when(ingredientRepository.findById("GRBF")).thenReturn(Optional.of(new Ingredient("GRBF", "Ground Beef", Type.PROTEIN, BigDecimal.ONE)));
+    when(ingredientRepository.findById("CHED")).thenReturn(Optional.of(new Ingredient("CHED", "Cheddar", Type.CHEESE, BigDecimal.ONE)));
     
     design = new Taco();
     design.setName("Test Taco");
 
     design.setIngredients(
         Arrays.asList(
-            new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
-            new Ingredient("GRBF", "Ground Beef", Type.PROTEIN),
-            new Ingredient("CHED", "Cheddar", Type.CHEESE)
+            new Ingredient("FLTO", "Flour Tortilla", Type.WRAP, BigDecimal.ONE),
+            new Ingredient("GRBF", "Ground Beef", Type.PROTEIN, BigDecimal.ONE),
+            new Ingredient("CHED", "Cheddar", Type.CHEESE, BigDecimal.ONE)
           )
         );
   }
