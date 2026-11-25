@@ -47,6 +47,8 @@ public class DesignAndOrderTacosBrowserTest {
     buildAndSubmitATaco("Basic Taco", "FLTO", "GRBF", "CHED", "TMTO", "SLSA");
     clickBuildAnotherTaco();
     buildAndSubmitATaco("Another Taco", "COTO", "CARN", "JACK", "LETC", "SRCR");
+    assertThat(browser.findElements(By.cssSelector("tbody tr"))).hasSize(2);
+    clickProceedToCheckout();
     fillInAndSubmitOrderForm();
     assertThat(browser.getCurrentUrl()).isEqualTo(homePageUrl());
   }
@@ -57,6 +59,7 @@ public class DesignAndOrderTacosBrowserTest {
     clickDesignATaco();
     assertDesignPageElements();
     buildAndSubmitATaco("Basic Taco", "FLTO", "GRBF", "CHED", "TMTO", "SLSA");
+    clickProceedToCheckout();
     submitEmptyOrderForm();
     fillInAndSubmitOrderForm();
     assertThat(browser.getCurrentUrl()).isEqualTo(homePageUrl());
@@ -68,6 +71,7 @@ public class DesignAndOrderTacosBrowserTest {
     clickDesignATaco();
     assertDesignPageElements();
     buildAndSubmitATaco("Basic Taco", "FLTO", "GRBF", "CHED", "TMTO", "SLSA");
+    clickProceedToCheckout();
     submitInvalidOrderForm();
     fillInAndSubmitOrderForm();
     assertThat(browser.getCurrentUrl()).isEqualTo(homePageUrl());
@@ -121,7 +125,6 @@ public class DesignAndOrderTacosBrowserTest {
     assertIngredient(sauceGroup, 0, "SLSA", "Salsa");
     assertIngredient(sauceGroup, 1, "SRCR", "Sour Cream");
   }
-
 
   private void fillInAndSubmitOrderForm() {
     assertThat(browser.getCurrentUrl()).startsWith(orderDetailsPageUrl());
@@ -213,10 +216,14 @@ public class DesignAndOrderTacosBrowserTest {
   }
 
   private void clickBuildAnotherTaco() {
-    assertThat(browser.getCurrentUrl()).startsWith(orderDetailsPageUrl());
+    assertThat(browser.getCurrentUrl()).isEqualTo(cartPageUrl());
     browser.findElement(By.cssSelector("a[id='another']")).click();
   }
 
+  private void clickProceedToCheckout() {
+    assertThat(browser.getCurrentUrl()).isEqualTo(cartPageUrl());
+    browser.findElement(By.cssSelector("a[id='checkout']")).click();
+  }
 
   //
   // URL helper methods
@@ -227,6 +234,10 @@ public class DesignAndOrderTacosBrowserTest {
 
   private String homePageUrl() {
     return "http://localhost:" + port + "/";
+  }
+
+  private String cartPageUrl() {
+    return homePageUrl() + "cart";
   }
 
   private String orderDetailsPageUrl() {
